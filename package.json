@@ -8,8 +8,15 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "bootstrap": "^4.4.1",
+    "bootstrap-vue": "^2.13.0",
     "core-js": "^3.6.4",
-    "vue": "^2.6.11"
+    "jquery": "^3.5.0",
+    "toastr": "^2.1.4",
+    "vee-validate": "^3.3.0",
+    "vue": "^2.6.11",
+    "vue-toasted": "^1.1.28",
+    "vue-toastr-2": "0.0.10"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.3.0",

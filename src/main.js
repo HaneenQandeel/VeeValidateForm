@@ -7,8 +7,10 @@ import 'vue-toastr-2/dist/vue-toastr-2.min.css'
 import Toasted from 'vue-toasted';
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
- 
+import VCalendar from 'v-calendar';
+
 Vue.use(Toasted)
+Vue.use(VCalendar)
 Vue.use(BootstrapVue)
 Vue.use(Toasted)
 window.toastr = require('toastr')

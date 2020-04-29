@@ -158,6 +158,23 @@
                   <span>{{ errors[0] }}</span>
                 </ValidationProvider>
 
+                 <ValidationProvider
+                  name="date"
+                  rules="required|alpha"
+                  v-slot="{ errors }"
+                >
+                  <div class="row date">
+                    <div class="col-sm-2">
+                      <label style="margin-top:37px;">تاريخ البداية</label>
+                    </div>
+                    <div class="col-sm-10">
+                      <DatePicker :mode='mode' v-model="selectedDate" style="margin-top: 30px;"></DatePicker>
+                    </div>
+                    
+                  </div>
+                  <span>{{ errors[0] }}</span>
+                </ValidationProvider>
+
                  <div class="row submit">
                     <div class="col-sm-3">
                         <button type="reset" style="background-color:#000;" >إعادة تعيين</button>
@@ -187,7 +204,11 @@
 </template>
 
 <script>
+import DatePicker from 'v-calendar/lib/components/date-picker.umd'
 export default {
+  components:{
+    DatePicker
+  },
   data: () => ({
     email: "",
     name: "",
@@ -197,6 +218,8 @@ export default {
     salesperson: "",
     currency: "",
     gender: "",
+    selectedDate:"",
+    mode:'single'
   }),
   methods: {
     onSubmit() {

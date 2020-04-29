@@ -158,8 +158,18 @@
                   <span>{{ errors[0] }}</span>
                 </ValidationProvider>
 
-                 <div class="submit">
-                    <button type="submit" :disabled="invalid">Submit</button>
+                 <div class="row submit">
+                    <div class="col-sm-3">
+                        <button type="reset" style="background-color:#000;" >إعادة تعيين</button>
+                    </div>
+
+                    <div class="col-sm-3">
+                       <button type="submit" :disabled="invalid" style="margin-right: 26px;">إرسال</button>
+                    </div>
+                    <div class="col-sm-6"></div>
+
+                    
+                
 
                  </div>
               </form>

@@ -4,14 +4,14 @@
       <div class="line"></div>
       <h3><i class="lar la-address-book"></i>إنشاء زبون جديد</h3>
       <b-tabs content-class="mt-3" style="margin-top:100px;">
-        <b-tab title="البيانات الشخصية" active>
+        <b-tab title="البيانات الشخصية" active >
           <div>
           <b-card>
             <ValidationObserver v-slot="{ invalid }">
               <form @submit.prevent="onSubmit">
                     <ValidationProvider
                   name="name"
-                  rules="required|alpha"
+                  rules="required|alpha_spaces"
                   v-slot="{ errors }"
                 > 
                   <div class="row">
@@ -19,8 +19,8 @@
                       <label style="margin-top: 37px;">الإسم</label>
                     </div>
                     <div class="col-sm-7">
-                      <input class="form-control" v-model="name" type="text" />
-                      <span>{{ errors[0] }}</span>
+                      <input @input="onChang()" class="form-control" v-model="name" type="text" />
+                      <span class="errors">{{ errors[0] }}</span>
                     </div>
                     <div class="col-3">
                       <ValidationProvider rules="required" v-slot="{ errors }">
@@ -36,7 +36,7 @@
                           <option value="en">الانجليزية</option>
 
                         </select>
-                        <span class="errors">{{ errors[0] }}</span>
+                        <span class="errors" style="color:red;">{{ errors[0] }}</span>
                       </ValidationProvider>
                     </div>
                   </div>
@@ -51,10 +51,10 @@
                 >
                  <div class="row">
                     <div class="col-sm-2">
-                        <label class="mt-2">النوع</label>
+                        <label style="margin-top: 37px;">النوع</label>
                     </div>
                   <div class="col-sm-10">
-                    <select v-model="selected" class="browser-default custom-select" style="margin-top: 30px;">
+                    <select @click="onChang()" v-model="selected" class="browser-default custom-select" style="margin-top: 30px;">
                       <option disabled value="">Please select one</option>
                       <option>A</option>
                       <option>B</option>
@@ -63,7 +63,7 @@
                   </div>
                   </div>
                   
-                  <span>{{ errors[0] }}</span>
+                  <span class="errors">{{ errors[0] }}</span>
                 </ValidationProvider>
 
                 <ValidationProvider
@@ -76,8 +76,8 @@
                        <label style="margin-top: 37px;">الكود</label>
                     </div>
                     <div class="col-sm-10">
-                       <input class="form-control" v-model="code" type="text" />
-                  <span>{{ errors[0] }}</span>
+                       <input @input="onChang()" class="form-control" v-model="code" type="text" />
+                  <span class="errors">{{ errors[0] }}</span>
                     </div>
                   </div>
                  
@@ -85,7 +85,7 @@
 
                 <ValidationProvider
                   name="tax"
-                  rules="required|alpha"
+                  rules="required|numeric"
                   v-slot="{ errors }"
                 >
                  <div class="row">
@@ -93,8 +93,8 @@
                      <label style="margin-top: 37px;">الرقم الضريبي</label>
                      </div>
                      <div class="col-sm-10">
-                     <input class="form-control" v-model="tax" type="text" />
-                  <span>{{ errors[0] }}</span>
+                     <input v-validate="'between:1,11'"  class="form-control" v-model="tax" type="text" />
+                  <span class="errors">{{ errors[0] }}</span>
                      </div>
                  
                  </div>
@@ -111,7 +111,7 @@
                     </div>
                     <div class="col-sm-10">
                        <input class="form-control" v-model="salesperson" type="text" />
-                  <span>{{ errors[0] }}</span>
+                  <span class="errors">{{ errors[0] }}</span>
                     </div>
                   
                   </div>
@@ -126,15 +126,17 @@
                       <label style="margin-top: 37px;">العملة الإفتراضية</label>
                     </div>
                     <div class="col-sm-10">
-                      <select v-model="currency" class="browser-default custom-select" style="margin-top: 30px;">
+                      <select v-model="currency" @click="onChang()" class="browser-default custom-select" style="margin-top: 30px;">
                         <option disabled value="">UAE Dirham</option>
                         <option>UAE Dirham</option>
                         <option>USD</option>
                         <option>Dinar</option>
                       </select>
+                      <span class="errors">{{ errors[0] }}</span>
                     </div>
+                    
                   </div>
-                  <span>{{ errors[0] }}</span>
+                  
                 </ValidationProvider>
 
                 <ValidationProvider
@@ -152,10 +154,9 @@
                         <option>ذكر</option>
                         <option>أنثى</option>
                       </select>
+                      <span class="errors">{{ errors[0] }}</span>
                     </div>
-                    
                   </div>
-                  <span>{{ errors[0] }}</span>
                 </ValidationProvider>
 
                  <ValidationProvider
@@ -172,7 +173,7 @@
                     </div>
                     
                   </div>
-                  <span>{{ errors[0] }}</span>
+                  <span class="errors">{{ errors[0] }}</span>
                 </ValidationProvider>
 
                  <div class="row submit">
@@ -204,7 +205,9 @@
 </template>
 
 <script>
-import DatePicker from 'v-calendar/lib/components/date-picker.umd'
+import DatePicker from 'v-calendar/lib/components/date-picker.umd';
+import { extend } from "vee-validate";
+import { required,numeric } from "vee-validate/dist/rules";
 export default {
   components:{
     DatePicker
@@ -223,9 +226,21 @@ export default {
   }),
   methods: {
     onSubmit() {
+      this.onChang();
      let myToast = this.$toasted.show("Holla !!");
-myToast.text("Changing the text !!!").goAway(1500);
+     myToast.text("Changing the text !!!").goAway(1500);
     },
+    onChang() {
+      extend("required", {
+        ...required,
+        message: "* يرجى إدخال الحقل مطلوب !! "
+      });
+      extend("numeric", {
+        ...numeric,
+        message: "* يرجى إدخال أرقام فقط !! "
+      });
+    }
+
   },
 };
 </script>
@@ -255,6 +270,14 @@ h3{
     float:right;
      border-bottom:1px solid #eee;
     margin-top: -66px;
+}
+.nav-link{
+  color:blue;
+  font-size:20px;
+}
+span.errors{
+  color:red;
+  float:right
 }
 
 </style>
